@@ -1,3 +1,5 @@
+// basic shell of constructor for future add player objects
+
 class CreatePlayer{
   constructor(name,money,curBet){
     this.name = name
@@ -25,6 +27,8 @@ let deckId = ''
 
 document.querySelector('#deck').addEventListener('click', shuffleDeck)
 
+//Need to go back and add card count to other functions eventually and have them update the remaining cards. Probably change from input to other element so it won't be confusing and save between referesh. Should add the deck and card count to local storage
+
 function shuffleDeck(){
   fetch('https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6')
   .then(res => res.json()) // parse response as JSON
@@ -40,6 +44,8 @@ function shuffleDeck(){
 }
 
 document.querySelector('#deal').addEventListener('click', dealCards)
+
+// Need to add clear to the dealCards function to remove img tags added via hit on previous hand
 
 function dealCards(){
   const url = `https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=4`
@@ -95,6 +101,7 @@ function p1Hit(){
         let player1Val = Number(document.querySelector('#p1Value').innerText)
         let cardValue = convertToNum(data.cards[0].value)
 
+        //this works to adjust ace when an 11 would cause bust, need to add functionality to display bust in DOM, as well as display 21.
         if(player1Val + cardValue > 21){
           if(data.cards[0].value == 'ACE'){
             player1Val += 1
