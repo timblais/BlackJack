@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+    	<meta charset="utf-8">
+    	<meta name="description" content="This is where your description goes">
+    	<meta name="keywords" content="one, two, three">
+
+		<title>Title in the tab</title>
+
+		<!-- external CSS link -->
+		<link rel="stylesheet" href="css/normalize.css">
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+	<body>
+
+		<h1>Blackjack!</h1>
+
+		<button id="deck">Shuffle Deck</button>
+		<label for="deckRemaining">Cards Remaining in Deck</label>
+		<input id="deckRemaining">
+
+		<button id="deal">Deal Cards</button>
+
+		<div class="dealer">
+			<h2>Dealer</h2>
+			<img id="dcard1" src="">
+			<img id="dcard2" src="">
+			<img id="dcard3" src="">
+			<img id="dcard4" src="">
+			<img id="dcard5" src="">
+			<span>Value:</span>
+			<span id="dValue"></span>
+		</div>
+
+		<div class="player1">
+			<h2>Player 1</h2>
+			<div id="p1Cards">
+				<img id="p1card1" src="">
+				<img id="p1card2" src="">
+			</div>
+			<span>Value:</span>
+			<span id="p1Value"></span>
+			<label for="p1Funds">Player 1 Total $$</label>
+			<input id="p1Funds">
+			<label for="p1bet">Player 1 Bet</label>
+			<input id="p1bet">
+			<button class="bet">Place Bet</button>
+			<button class="stand">Stand</button>
+			<button id="p1Hit">Hit</button>
+		</div>
+
+
+
+		<button>Deal Two Cards!</button>
+
+		
+		
+		<h3>Result</h3>
+
+		<script type="text/javascript" src="js/main.js"></script>
+	</body>
+</html>
