@@ -15,31 +15,31 @@
 
 		<h1>Blackjack!</h1>
 
-		<button id="deck">Shuffle Deck</button>
+		<button id="deck">New Deck</button>
 		<label for="deckRemaining">Cards Remaining in Deck</label>
-		<input id="deckRemaining">
+		<span id="deckRemaining"></span>
 
 		<button id="deal">Deal Cards</button>
+		<button id="newHand">New Hand</button>
 
 		<div class="dealer">
 			<h2>Dealer</h2>
-			<img id="dcard1" src="">
-			<img id="dcard2" src="">
-			<img id="dcard3" src="">
-			<img id="dcard4" src="">
-			<img id="dcard5" src="">
+			<div id="dCards" class="cardImages">
+				<img id="dcard1" class="starterCard" src="">
+				<img id="dcard2" class="starterCard" src="">
+			</div>
 			<span>Value:</span>
-			<span id="dValue"></span>
+			<span id="dValue" class="values"></span>
 		</div>
 
 		<div class="player1">
 			<h2>Player 1</h2>
-			<div id="p1Cards">
-				<img id="p1card1" src="">
-				<img id="p1card2" src="">
+			<div id="p1Cards" class="cardImages">
+				<img id="p1card1" class="starterCard" src="">
+				<img id="p1card2" class="starterCard" src="">
 			</div>
 			<span>Value:</span>
-			<span id="p1Value"></span>
+			<span id="p1Value" class="values"></span>
 			<label for="p1Funds">Player 1 Total $$</label>
 			<input id="p1Funds">
 			<label for="p1bet">Player 1 Bet</label>
@@ -49,12 +49,6 @@
 			<button id="p1Hit">Hit</button>
 		</div>
 
-
-
-		<button>Deal Two Cards!</button>
-
-		
-		
 		<h3>Result</h3>
 
 		<script type="text/javascript" src="js/main.js"></script>

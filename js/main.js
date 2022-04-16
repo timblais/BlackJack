@@ -23,7 +23,6 @@ class CreatePlayer{
 
 
 
-let deckId = ''
 
 document.querySelector('#deck').addEventListener('click', shuffleDeck)
 
@@ -34,8 +33,9 @@ function shuffleDeck(){
   .then(res => res.json()) // parse response as JSON
   .then(data => {
     console.log(data)
-    deckId = data.deck_id
-    document.querySelector('#deckRemaining').value = data.remaining
+    localStorage.setItem('DeckID', data.deck_id)
+    localStorage.setItem('cardsRemaining', data.remaining)
+    document.querySelector('#deckRemaining').innerText = localStorage.getItem('cardsRemaining')
     
   })
   .catch(err => {
@@ -48,6 +48,8 @@ document.querySelector('#deal').addEventListener('click', dealCards)
 // Need to add clear to the dealCards function to remove img tags added via hit on previous hand
 
 function dealCards(){
+  let deckId = localStorage.getItem('DeckID')
+  
   const url = `https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=4`
 
   fetch(url)
@@ -58,6 +60,8 @@ function dealCards(){
         document.querySelector('#dcard1').src = data.cards[1].image
         document.querySelector('#p1card2').src = data.cards[2].image 
         document.querySelector('#dcard2').src = data.cards[3].image
+        localStorage.setItem('cardsRemaining', data.remaining)
+        document.querySelector('#deckRemaining').innerText = localStorage.getItem('cardsRemaining')
 
         let player1Val = convertToNum(data.cards[0].value) + convertToNum(data.cards[2].value)
         document.querySelector('#p1Value').innerText = player1Val
@@ -87,14 +91,19 @@ function convertToNum(val){
 document.querySelector('#p1Hit').addEventListener('click', p1Hit)
 
 function p1Hit(){
+  let deckId = localStorage.getItem('DeckID')
+
   const url = `https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`
 
   fetch(url)
       .then(res => res.json()) // parse response as JSON
       .then(data => {
         console.log(data)
+        localStorage.setItem('cardsRemaining', data.remaining)
+        document.querySelector('#deckRemaining').innerText = localStorage.getItem('cardsRemaining')
 
         let newCard = document.createElement('img')
+        newCard.classList.add("addedCard")
         newCard.setAttribute('src', data.cards[0].image)
         document.getElementById('p1Cards').appendChild(newCard)
 
@@ -118,3 +127,11 @@ function p1Hit(){
           console.log(`error ${err}`)
       });
 }
+
+function newHand(){
+  document.querySelectorAll(".addedCard").forEach(element => element.remove())
+  document.querySelectorAll(".starterCard").forEach(element => element.setAttribute('src', ""))
+  document.querySelectorAll(".starterCard").forEach(element => element.setAttribute('src', ""))
+}
+
+document.querySelector("#newHand").addEventListener("click", newHand)

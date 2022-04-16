@@ -13,8 +13,15 @@
 img{
   display: block;
   margin: 0 auto;
+  width: 150px;
 }
 
+.cardImages {
+  width: 70%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
 
 /******************************************
 /* ADDITIONAL STYLES
