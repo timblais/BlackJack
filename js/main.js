@@ -22,7 +22,7 @@ class CreatePlayer{
 }
 
 
-
+document.querySelector('#deckRemaining').innerText = localStorage.getItem('cardsRemaining')
 
 document.querySelector('#deck').addEventListener('click', shuffleDeck)
 
@@ -60,12 +60,21 @@ function dealCards(){
         document.querySelector('#dcard1').src = data.cards[1].image
         document.querySelector('#p1card2').src = data.cards[2].image 
         document.querySelector('#dcard2').src = data.cards[3].image
+        document.querySelector('#dcard2').hidden = true
+
+        let backCard = document.createElement('img')
+        backCard.classList.add("addedCard", "cardBack")
+        backCard.setAttribute('src', "images/cardback.png")
+        document.getElementById('dCards').appendChild(backCard)
+
+
         localStorage.setItem('cardsRemaining', data.remaining)
         document.querySelector('#deckRemaining').innerText = localStorage.getItem('cardsRemaining')
+        localStorage.setItem("hiddenValue", data.cards[3].value)
 
         let player1Val = convertToNum(data.cards[0].value) + convertToNum(data.cards[2].value)
         document.querySelector('#p1Value').innerText = player1Val
-        let dealerVal = convertToNum(data.cards[1].value) + convertToNum(data.cards[3].value)
+        let dealerVal = convertToNum(data.cards[1].value) 
         document.querySelector('#dValue').innerText = dealerVal
         
       })
@@ -132,6 +141,20 @@ function newHand(){
   document.querySelectorAll(".addedCard").forEach(element => element.remove())
   document.querySelectorAll(".starterCard").forEach(element => element.setAttribute('src', ""))
   document.querySelectorAll(".starterCard").forEach(element => element.setAttribute('src', ""))
+  document.querySelectorAll(".values").forEach(element => element.innerText = "")
 }
 
 document.querySelector("#newHand").addEventListener("click", newHand)
+
+
+function stand(){
+  document.querySelector(".cardBack").remove()
+  document.querySelector('#dcard2').hidden = false
+  
+  let hiddenVal = convertToNum(localStorage.getItem("hiddenValue"))
+  let dealerVal = Number(document.querySelector('#dValue').innerText)
+  document.querySelector('#dValue').innerText = dealerVal + hiddenVal
+
+}
+
+document.querySelector(".stand").addEventListener("click", stand)
