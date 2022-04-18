@@ -101,6 +101,7 @@ document.querySelector('#p1Hit').addEventListener('click', p1Hit)
 
 function p1Hit(){
   let deckId = localStorage.getItem('DeckID')
+  let result
 
   const url = `https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`
 
@@ -127,6 +128,8 @@ function p1Hit(){
           }else{
             document.querySelector('#p1Value').innerText = (player1Val + cardValue)
             console.log("Bust")
+            result = "Player 1 busts!"
+            document.querySelector("#result").innerText = result
           }
         }else{
           document.querySelector('#p1Value').innerText = (player1Val + cardValue)
@@ -142,6 +145,7 @@ function newHand(){
   document.querySelectorAll(".starterCard").forEach(element => element.setAttribute('src', ""))
   document.querySelectorAll(".starterCard").forEach(element => element.setAttribute('src', ""))
   document.querySelectorAll(".values").forEach(element => element.innerText = "")
+  document.querySelector("#result").innerText = "Result: "
 }
 
 document.querySelector("#newHand").addEventListener("click", newHand)
@@ -155,6 +159,75 @@ function stand(){
   let dealerVal = Number(document.querySelector('#dValue').innerText)
   document.querySelector('#dValue').innerText = dealerVal + hiddenVal
 
+  dealerVal = dealerVal + hiddenVal
+
+  return dealerVal > 16 ? calcWinner() : dealerHit()
+
 }
 
 document.querySelector(".stand").addEventListener("click", stand)
+
+function calcWinner(){
+  let p1Val = Number(document.getElementById('p1Value').innerText)
+  let dVal = Number(document.getElementById('dValue').innerText)
+  let result
+
+  if(p1Val > dVal){
+    result = "Player 1 wins!"
+  }else if(p1Val == dVal){
+    result = "Draw"
+  }else if(p1Val < dVal){
+    result = "Dealer wins!"
+  }
+  document.querySelector("#result").innerText = result
+}
+
+function dealerHit(){
+  let deckId = localStorage.getItem('DeckID')
+  let result
+  let dealerVal = Number(document.querySelector('#dValue').innerText)
+
+  if(dealerVal > 16 && dealerVal <=21){
+    return calcWinner()
+  }else{
+    const url = `https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`
+
+    fetch(url)
+        .then(res => res.json()) // parse response as JSON
+        .then(data => {
+          console.log(data)
+          localStorage.setItem('cardsRemaining', data.remaining)
+          document.querySelector('#deckRemaining').innerText = localStorage.getItem('cardsRemaining')
+  
+          let newCard = document.createElement('img')
+          newCard.classList.add("addedCard")
+          newCard.setAttribute('src', data.cards[0].image)
+          document.getElementById('dCards').appendChild(newCard)
+  
+          let dealerVal = Number(document.querySelector('#dValue').innerText)
+          let cardValue = convertToNum(data.cards[0].value)
+  
+          //this works to adjust ace when an 11 would cause bust, need to add functionality to display bust in DOM, as well as display 21.
+          if(dealerVal + cardValue > 21){
+            if(data.cards[0].value == 'ACE'){
+              dealerVal += 1
+              document.querySelector('#dValue').innerText = dealerVal
+              //currently only accounts for the last card being an ace. Probably need to store the first two cards in local storage or on a dealer object. First need to create dealer object. maybe having hit/stand as object methods would be cleaner in the end
+            }else{
+              document.querySelector('#dValue').innerText = (dealerVal + cardValue)
+              console.log("Bust")
+              result = "Dealer busts! Player 1 wins!"
+              document.querySelector("#result").innerText = result
+            }
+          }else{
+            document.querySelector('#dValue').innerText = (dealerVal + cardValue)
+            return dealerHit()
+          }
+        })
+        .catch(err => {
+            console.log(`error ${err}`)
+        });
+  }
+
+  
+}
