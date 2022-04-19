@@ -1,3 +1,12 @@
+/* NEXT STEPS:
+- update older functions to incorporate new dealer object properties for dealer value storage
+- update player to be object based
+- update new hand function to clear object properties
+- clean up general play functionality eg new hand/deal cards should be obvious as next steps
+- add betting and system to keep track of player bets
+*/
+
+
 // basic shell of constructor for future add player objects
 
 class CreatePlayer{
@@ -20,6 +29,65 @@ class CreatePlayer{
 
   }
 }
+
+
+const dealer = {
+  total: 0, //used to store dealer's total card value
+  cardValues: [], //stores card values in an array that can be summed to a total and modified for aces when soft hands exist
+  bust: false, // true/false to identify if the dealer has busted
+
+  // The hit function only performs the hit, makes the API call and adds that card to the DOM, cardValues, and total. after the hit is complete, returns playTurn function
+  hit: function(){
+    let deckId = localStorage.getItem('DeckID') // locally stored DeckID for use with API call
+    const url = `https://www.deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`
+
+    fetch(url)
+          .then(res => res.json()) // parse response as JSON
+          .then(data => {
+            console.log(data)
+            localStorage.setItem('cardsRemaining', data.remaining) // locally stored cards remaining, next line places in the DOM. might get rid of DOM display later
+            document.querySelector('#deckRemaining').innerText = localStorage.getItem('cardsRemaining')
+            
+            // Creates new image element with addedCard class, pulls the card image from the API response and adds to the DOM
+            let newCard = document.createElement('img') 
+            newCard.classList.add("addedCard")
+            newCard.setAttribute('src', data.cards[0].image)
+            document.getElementById('dCards').appendChild(newCard)
+            
+            // adds newly drawn card value to dealer cardValues and updates total, then updates total display in the DOM
+            this.cardValues.push(Number(convertToNum(data.cards[0].value)))
+            this.total = this.cardValues.reduce((a,c => a + c))
+            document.querySelector('#dValue').innerText = this.total
+          })
+            .catch(err => {
+              console.log(`error ${err}`)
+          });
+    return this.playTurn() // runs playTurn function
+  },
+
+  // playTurn function performs dealer total calculations and determines next step in dealer's turn
+  playTurn: function(){
+    if(this.total > 16 && this.total <= 21){
+      return calcWinner() // returns calcWinner function if dealer is within stand parameters
+    }else if(this.total < 16){
+      return this.hit() // tells dealer to hit if under 16
+    }else if(this.total > 21){ // if dealer is over 21, checks to see if the hand was soft with an ace included. If an ace exists on the cardValues property, replaces it with a 1, updates the total, and reruns this function. If no ace, declares bust and runs calcWinner function
+      if(this.cardValues.includes(11)){
+        let index = this.cardValues.findIndex(x => x > 10)
+        this.cardValues.splice(index, 1, 1)
+        this.total = this.cardValues.reduce((a,c => a + c))
+        document.querySelector('#dValue').innerText = this.total
+        return this.playTurn() 
+      }else{
+        this.bust = true
+        return calcWinner()
+      }
+    }
+  },
+  
+}
+    
+ 
 
 
 document.querySelector('#deckRemaining').innerText = localStorage.getItem('cardsRemaining')
