@@ -10,19 +10,120 @@
 /******************************************
 /* LAYOUT
 /*******************************************/
+body{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+h1{
+  text-align: center;
+  width: 100%;
+}
+
+.deckStatus{
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+}
+
+.deckStatus > div{
+  margin: 10px;
+}
+
+.gameArea{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.dealer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 45%;
+  padding: 10px 0;
+  margin: 0 2.5%;
+  border: 5px solid black;
+  border-radius: 5px;
+}
+
+.player1{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 45%;
+  padding: 10px 0;
+  margin: 0 2.5%;
+  border: 5px solid black;
+  border-radius: 5px;
+}
+
+.valueDiv{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.valueDiv > h3{
+  padding: 0 5px;
+}
+
+.betting{
+  margin: 15px;
+}
+
 img{
   display: block;
   margin: 0 auto;
-  width: 150px;
+  width: 125px;
+  min-width: 125px;
+  /* border: 2px solid black;
+  border-radius: 5px; */
+  padding: 10px;
+  /* height: 165px; */
 }
 
 .cardImages {
-  width: 70%;
+  width: 100%;
   display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
 }
+
+
 
 /******************************************
 /* ADDITIONAL STYLES
 /*******************************************/
+
+
+.player1{
+  background-color: darkgreen;
+}
+
+.player1 > *{
+  color: white;
+}
+
+.dealer{
+  background-color: darkgreen;
+}
+
+.dealer > *{
+  color: white;
+}
+
+/* .gameArea button{
+  background: black;
+  color: white;
+} */

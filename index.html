@@ -15,41 +15,62 @@
 
 		<h1>Blackjack!</h1>
 
-		<button id="deck">New Deck</button>
-		<label for="deckRemaining">Cards Remaining in Deck</label>
-		<span id="deckRemaining"></span>
-
-		<button id="deal">Deal Cards</button>
-		<button id="newHand">New Hand</button>
-
-		<div class="dealer">
-			<h2>Dealer</h2>
-			<div id="dCards" class="cardImages">
-				<img id="dcard1" class="starterCard" src="">
-				<img id="dcard2" class="starterCard" src="">
+		<section class="deckStatus">
+			<button id="deck">Get New Deck</button>
+			<div>
+				<span for="deckRemaining">Cards Remaining:</span>
+				<span id="deckRemaining"></span>
 			</div>
-			<span>Value:</span>
-			<span id="dValue" class="values"></span>
-		</div>
 
-		<div class="player1">
-			<h2>Player 1</h2>
-			<div id="p1Cards" class="cardImages">
-				<img id="p1card1" class="starterCard" src="">
-				<img id="p1card2" class="starterCard" src="">
-			</div>
-			<span>Value:</span>
-			<span id="p1Value" class="values"></span>
-			<label for="p1Funds">Player 1 Total $$</label>
-			<input id="p1Funds">
-			<label for="p1bet">Player 1 Bet</label>
-			<input id="p1bet">
-			<button class="bet">Place Bet</button>
-			<button class="stand">Stand</button>
-			<button id="p1Hit">Hit</button>
-		</div>
+		</section>
 
-		<h3 id="result">Result: </h3>
+		<section class="dealNewHand">
+			<button id="deal">Deal Cards</button>
+			<button id="newHand">New Hand</button>
+		</section>
+
+		<h2 id="result">Result: </h2>
+
+		<section class="gameArea">
+
+			<section class="player1">
+				<h2>Player 1</h2>
+				<section class="valueDiv">
+					<h3>Card Value:</h3>
+					<h3 id="p1Value" class="values"></h3>
+				</section>
+				<section id="p1Cards" class="cardImages">
+					<img id="p1card1" class="starterCard" src="">
+					<img id="p1card2" class="starterCard" src="">
+				</section>
+				<section class="betting">
+					<span>Total Money:</span>
+					<span id="p1Funds"></span>
+					<span>Current Bet:</span>
+					<span id="p1bet"></span>
+					<button class="bet">Place Bet</button>
+				</section>
+				<section class="playerActions">
+					<button class="stand">Stand</button>
+					<button id="p1Hit">Hit</button>
+				</section>
+			</section>
+
+			<section class="dealer">
+				<h2>Dealer</h2>
+				<section class="valueDiv">
+					<h3>Card Value:</h3>
+					<h3 id="dValue" class="values"></h3>
+				</section>
+				<section id="dCards" class="cardImages">
+					<img id="dcard1" class="starterCard" src="">
+					<img id="dcard2" class="starterCard" src="">
+				</section>
+			</section>
+	
+
+		</section>
+		
 
 		<script type="text/javascript" src="js/main.js"></script>
 	</body>
