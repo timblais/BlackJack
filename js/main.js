@@ -118,8 +118,8 @@ const dealer = {
     document.querySelector('#dValue').innerText = this.total
     if(this.total > 16 && this.total <= 21){
       return calcWinner() // returns calcWinner function if dealer is within stand parameters
-    }else if(this.total < 16){
-      return this.hit() // tells dealer to hit if under 16
+    }else if(this.total < 17){
+      return this.hit() // tells dealer to hit if under 17
     }else if(this.total > 21){ // if dealer is over 21, checks to see if the hand was soft with an ace included. If an ace exists on the cardValues property, replaces it with a 1, updates the total, and reruns this function. If no ace, declares bust and runs calcWinner function
       if(this.cardValues.includes(11)){
         this.cardValues = this.cardValues.filter(x => x < 11)
